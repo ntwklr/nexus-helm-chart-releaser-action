@@ -59,7 +59,7 @@ jobs:
           version: v3.4.0
 
       - name: Run chart-releaser
-        uses: ntwklr/nexus-helm-chart-releaser-action@v0.0.1
+        uses: ntwklr/nexus-helm-chart-releaser-action@v0.0.5
         with:
           charts_repo_url: https://example.com/repository/repo/
           username: "${{ secrets.NEXUS_USERNAME }}"
@@ -76,7 +76,7 @@ It does this – during every push to `main` – by checking each chart in your 
 `workflow.yml`:
 ```yaml
 - name: Run chart-releaser
-  uses: helm/chart-releaser-action@v1.2.0
+  uses: ntwklr/nexus-helm-chart-releaser-action@v0.0.5
   with:
     charts_dir: charts
     config: cr.yaml
