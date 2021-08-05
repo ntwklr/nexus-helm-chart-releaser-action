@@ -263,7 +263,7 @@ package_chart() {
 }
 
 release_charts() {
-    local auth="$username:$passsword"
+    local auth="$username:$password"
 
     echo 'Releasing charts...'
     for tgz in $(find .cr-release-packages -name '*.tgz')
