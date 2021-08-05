@@ -1,0 +1,49 @@
+name: "Nexus Helm Chart Releaser"
+description: "Push Helm Chart to Sonatype Nexus Repository Manager"
+author: "ntwklr"
+branding:
+  color: blue
+  icon: anchor
+inputs:
+  version:
+    description: "The chart-releaser version to use (default: v1.2.1)"
+  config:
+    description: "The relative path to the chart-releaser config file"
+  charts_dir:
+    description: The charts directory
+    default: charts
+  charts_repo_url:
+    description: "The Repository URL to the charts repo (example: https://example.com/repository/repo/)"
+    required: true
+  username:
+    description: "Username to connect to Nexus to publish components"
+    required: true
+  password:
+    description: "Password to connect to Nexus to publish components"
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: |
+        owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+        repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
+
+        args=(--owner "$owner" --repo "$repo")
+        args+=(--charts-dir "${{ inputs.charts_dir }}")
+
+        if [[ -n "${{ inputs.version }}" ]]; then
+            args+=(--version "${{ inputs.version }}")
+        fi
+
+        if [[ -n "${{ inputs.config }}" ]]; then
+            args+=(--config "${{ inputs.config }}")
+        fi
+
+        args+=(--charts-repo-url "${{ inputs.charts_repo_url }}")
+
+        args+=(--username "${{ inputs.username }}")
+
+        args+=(--password "${{ inputs.password }}")
+
+        "$GITHUB_ACTION_PATH/cr.sh" "${args[@]}"
+      shell: bash
