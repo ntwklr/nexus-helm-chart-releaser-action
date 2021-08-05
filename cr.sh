@@ -276,7 +276,7 @@ release_charts() {
 push_charts() {
     local auth="$username:$password"
 
-    echo 'Releasing charts...'
+    echo 'Pushing charts...'
     for tgz in $(find .cr-release-packages -name '*.tgz')
     do 
         curl -is -u "$auth" "$charts_repo_url" --upload-file "$tgz" > /dev/null
