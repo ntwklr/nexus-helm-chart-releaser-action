@@ -269,6 +269,7 @@ release_charts() {
     for tgz in $(find .cr-release-packages -name '*.tgz')
     do 
         curl -is -u "$auth" "$charts_repo_url" --upload-file "$tgz" > /dev/null
+        echo "Chart $tgz successfully pushed to $charts_repo_url"
     done
 }
 
