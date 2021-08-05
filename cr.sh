@@ -80,6 +80,7 @@ main() {
         done
 
         release_charts
+        push_charts
     else
         echo "Nothing to do. No chart changes detected."
     fi
@@ -263,6 +264,16 @@ package_chart() {
 }
 
 release_charts() {
+    local args=(-o "$owner" -r "$repo" -c "$(git rev-parse HEAD)")
+    if [[ -n "$config" ]]; then
+        args+=(--config "$config")
+    fi
+
+    echo 'Releasing charts...'
+    cr upload "${args[@]}"
+}
+
+push_charts() {
     local auth="$username:$password"
 
     echo 'Releasing charts...'
